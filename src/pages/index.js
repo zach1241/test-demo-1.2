@@ -5,82 +5,103 @@ import Container from 'components/Container';
 
 import styles from 'styles/pages/Home.module.scss';
 
-const tasks = [
-  {
-    title: 'Build homepage',
-    status: 'In Progress',
-    priority: 'High',
-  },
-  {
-    title: 'Connect WordPress GraphQL',
-    status: 'In Progress',
-    priority: 'High',
-  },
-  {
-    title: 'Create task cards',
-    status: 'Completed',
-    priority: 'Medium',
-  },
-  {
-    title: 'Configure WordPress',
-    status: 'To Do',
-    priority: 'Low',
-  },
-];
-
 export default function Home() {
+  const tasks = [
+    {
+      title: 'Finish website redesign',
+      description: 'Complete the homepage layout and responsive styling.',
+      status: 'In Progress',
+    },
+    {
+      title: 'SEO audit',
+      description: 'Review metadata, headings and internal links.',
+      status: 'Completed',
+    },
+    {
+      title: 'Fix contact form',
+      description: 'Investigate the form submission issue.',
+      status: 'In Progress',
+    },
+    {
+      title: 'Create service pages',
+      description: 'Build the remaining service page templates.',
+      status: 'Pending',
+    },
+  ];
+
   return (
     <Layout>
-      <Header>
-        <h1>Manage your work.</h1>
+      <main className={styles.home}>
+        <div className={styles.dashboard}>
 
-        <p className={styles.description}>
-          Organize your tasks, track your progress, and keep your projects
-          moving forward.
-        </p>
-      </Header>
-
-      <Section>
-        <Container>
-          <div className={styles.dashboard}>
-            <div className={styles.stats}>
-              <div className={styles.statCard}>
-                <span>Total Tasks</span>
-                <strong>12</strong>
-              </div>
-
-              <div className={styles.statCard}>
-                <span>In Progress</span>
-                <strong>5</strong>
-              </div>
-
-              <div className={styles.statCard}>
-                <span>Completed</span>
-                <strong>7</strong>
-              </div>
+          <section className={styles.hero}>
+            <div className={styles.heroContent}>
+              <h1>Good morning 👋</h1>
+              <p>Here&apos;s what&apos;s happening with your tasks.</p>
             </div>
 
-            <div className={styles.tasksHeader}>
+            <button className={styles.primaryButton}>
+              + New Task
+            </button>
+          </section>
+
+          <section className={styles.stats}>
+            <div className={styles.statCard}>
+              <h3>Total Tasks</h3>
+              <strong>24</strong>
+            </div>
+
+            <div className={styles.statCard}>
+              <h3>In Progress</h3>
+              <strong>8</strong>
+            </div>
+
+            <div className={styles.statCard}>
+              <h3>Completed</h3>
+              <strong>14</strong>
+            </div>
+
+            <div className={styles.statCard}>
+              <h3>Pending</h3>
+              <strong>2</strong>
+            </div>
+          </section>
+
+          <section className={styles.content}>
+
+            <div className={styles.card}>
               <h2>Recent Tasks</h2>
 
-              <button type="button">+ Add Task</button>
-            </div>
-
-            <div className={styles.tasks}>
               {tasks.map((task) => (
                 <div className={styles.task} key={task.title}>
-                  <div>
+                  <div className={styles.taskInfo}>
                     <h3>{task.title}</h3>
-                    <span>{task.priority} Priority</span>
+                    <p>{task.description}</p>
                   </div>
 
-                  <span className={styles.status}>{task.status}</span>
+                  <span className={styles.status}>
+                    {task.status}
+                  </span>
                 </div>
               ))}
             </div>
-          </div>
-        </Container>
-      </Section>
+
+            <div className={styles.card}>
+              <h2>Today</h2>
+
+              <p>
+                You have 3 tasks scheduled for today.
+              </p>
+
+              <p>
+                Keep going! You&apos;re 78% through your weekly goals.
+              </p>
+            </div>
+
+          </section>
+
+        </div>
+      </main>
     </Layout>
   );
 }
