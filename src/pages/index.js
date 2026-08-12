@@ -1,75 +1,86 @@
-import useSite from 'hooks/use-site';
-import { getPaginatedPosts } from 'lib/posts';
-import { WebsiteJsonLd } from 'lib/json-ld';
-
 import Layout from 'components/Layout';
 import Header from 'components/Header';
 import Section from 'components/Section';
 import Container from 'components/Container';
-import PostCard from 'components/PostCard';
-import Pagination from 'components/Pagination';
 
 import styles from 'styles/pages/Home.module.scss';
 
-export default function Home({ posts, pagination }) {
-  const { metadata = {} } = useSite();
-  const { title, description } = metadata;
+const tasks = [
+  {
+    title: 'Build homepage',
+    status: 'In Progress',
+    priority: 'High',
+  },
+  {
+    title: 'Connect WordPress GraphQL',
+    status: 'In Progress',
+    priority: 'High',
+  },
+  {
+    title: 'Create task cards',
+    status: 'Completed',
+    priority: 'Medium',
+  },
+  {
+    title: 'Configure WordPress',
+    status: 'To Do',
+    priority: 'Low',
+  },
+];
 
+export default function Home() {
   return (
     <Layout>
-      <WebsiteJsonLd siteTitle={title} />
       <Header>
-        <h1
-          dangerouslySetInnerHTML={{
-            __html: title,
-          }}
-        />
+        <h1>Manage your work.</h1>
 
-        <p
-          className={styles.description}
-          dangerouslySetInnerHTML={{
-            __html: description,
-          }}
-        />
+        <p className={styles.description}>
+          Organize your tasks, track your progress, and keep your projects
+          moving forward.
+        </p>
       </Header>
 
       <Section>
         <Container>
-          <h2 className="sr-only">Posts</h2>
-          <ul className={styles.posts}>
-            {posts.map((post) => {
-              return (
-                <li key={post.slug}>
-                  <PostCard post={post} />
-                </li>
-              );
-            })}
-          </ul>
-          {pagination && (
-            <Pagination
-              addCanonical={false}
-              currentPage={pagination?.currentPage}
-              pagesCount={pagination?.pagesCount}
-              basePath={pagination?.basePath}
-            />
-          )}
+          <div className={styles.dashboard}>
+            <div className={styles.stats}>
+              <div className={styles.statCard}>
+                <span>Total Tasks</span>
+                <strong>12</strong>
+              </div>
+
+              <div className={styles.statCard}>
+                <span>In Progress</span>
+                <strong>5</strong>
+              </div>
+
+              <div className={styles.statCard}>
+                <span>Completed</span>
+                <strong>7</strong>
+              </div>
+            </div>
+
+            <div className={styles.tasksHeader}>
+              <h2>Recent Tasks</h2>
+
+              <button type="button">+ Add Task</button>
+            </div>
+
+            <div className={styles.tasks}>
+              {tasks.map((task) => (
+                <div className={styles.task} key={task.title}>
+                  <div>
+                    <h3>{task.title}</h3>
+                    <span>{task.priority} Priority</span>
+                  </div>
+
+                  <span className={styles.status}>{task.status}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </Container>
       </Section>
     </Layout>
   );
-}
-
-export async function getStaticProps() {
-  const { posts, pagination } = await getPaginatedPosts({
-    queryIncludes: 'archive',
-  });
-  return {
-    props: {
-      posts,
-      pagination: {
-        ...pagination,
-        basePath: '/posts',
-      },
-    },
-  };
 }
