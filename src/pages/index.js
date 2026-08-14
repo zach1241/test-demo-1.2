@@ -27,6 +27,11 @@ export default function Home() {
       description: 'Build the remaining service page templates.',
       status: 'Pending',
     },
+	{
+		title: 'Update Menu on Header',
+		description: 'Make sure the menu is updated when SEO audit is completed',
+		status: 'Completed',
+	},
   ];
 
   return (
